@@ -1,4 +1,4 @@
-module merger
+module github.com/seedjyh/merger
 
 go 1.14
 
