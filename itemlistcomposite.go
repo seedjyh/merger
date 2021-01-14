@@ -4,21 +4,21 @@ package merger
 import "fmt"
 
 type itemListComposite struct {
-	category int
-	itemLists []itemList
+	categoriesCount int
+	itemLists     []itemList
 }
 
-func newItemListComposite(category int) *itemListComposite {
+func newItemListComposite(categoriesCount int) *itemListComposite {
 	return &itemListComposite{
-		category:  category,
-		itemLists: make([]itemList, category),
+		categoriesCount: categoriesCount,
+		itemLists:     make([]itemList, categoriesCount),
 	}
 }
 
 // appendItem 添加一个Item。调用方需要保证不会传入重复项。
 // 如果数据有问题，则返回error非空。
 func (c *itemListComposite) appendItem(item Item) error {
-	if item.CategoryID() < 0 || item.CategoryID() >= c.category {
+	if item.CategoryID() < 0 || item.CategoryID() >= c.categoriesCount {
 		return fmt.Errorf("no such category")
 	}
 	c.itemLists[item.CategoryID()] = append(c.itemLists[item.CategoryID()], item)
@@ -42,7 +42,7 @@ func (c *itemListComposite) merge(maxDifference float64) []*ItemGroup {
 			break // 所有list都是空的了
 		}
 		// 按序取
-		g := newItemGroup(c.category)
+		g := newItemGroup(c.categoriesCount)
 		headItems.sort()
 		var firstChosenItem Item // 也是“最小”的item
 		for i, item := range headItems {

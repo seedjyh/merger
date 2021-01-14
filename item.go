@@ -5,7 +5,7 @@ import "sort"
 
 // Item是要被分组的数据块。
 type Item interface {
-	// CategoryID 用于描述Item的来源。取值在0 <= CategoryID < Merger.category。
+	// CategoryID 用于描述Item的来源。取值在0 <= CategoryID < Merger.categoriesCount。
 	CategoryID() int
 	// Key 生成一个字符串。Key不同的Item必定被分到不同的ItemGroup。
 	Key() string
@@ -25,11 +25,11 @@ type ItemGroup struct {
 	Items []Item
 }
 
-func newItemGroup(category int) *ItemGroup {
-	if category <= 0 {
+func newItemGroup(categoriesCount int) *ItemGroup {
+	if categoriesCount <= 0 {
 		panic("require at least 1 category")
 	}
 	return &ItemGroup{
-		Items: make([]Item, category),
+		Items: make([]Item, categoriesCount),
 	}
 }
